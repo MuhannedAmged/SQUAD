@@ -26,8 +26,8 @@ const HelpPage = () => {
   const faqs = [
     { q: t("faqQ1"), a: t("faqA1") },
     { q: t("faqQ2"), a: t("faqA2") },
-    { q: t("faqQ3"), a: t("faqA3") },
-    { q: t("faqQ4"), a: t("faqA4") },
+    // { q: t("faqQ3"), a: t("faqA3") },
+    // { q: t("faqQ4"), a: t("faqA4") },
   ];
 
   const filteredFaqs = faqs.filter(
@@ -53,7 +53,7 @@ const HelpPage = () => {
         </p>
 
         {/* Enhanced Search Bar */}
-        <div className="relative max-w-2xl mx-auto">
+        {/* <div className="relative max-w-2xl mx-auto">
           <Search
             className="absolute start-5 top-1/2 -translate-y-1/2 text-zinc-500"
             size={20}
@@ -65,11 +65,11 @@ const HelpPage = () => {
             placeholder={t("helpSearchPlaceholder")}
             className="w-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 rounded-2xl py-5 ps-14 pe-5 text-white placeholder-zinc-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-xl"
           />
-        </div>
+        </div> */}
       </motion.div>
 
       {/* Resource Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
         {[
           {
             icon: Book,
@@ -120,7 +120,7 @@ const HelpPage = () => {
             </div>
           </motion.div>
         ))}
-      </div>
+      </div> */}
 
       {/* Interactive FAQ Section */}
       <section className="mb-20">
@@ -187,7 +187,7 @@ const HelpPage = () => {
       </section>
 
       {/* Contact Support Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-3xl p-10 md:p-16 text-center overflow-hidden">
+      {/* <section className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-3xl p-10 md:p-16 text-center overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,215,0,0.1),transparent_50%)]" />
         <div className="relative z-10">
           <div className="inline-block p-4 bg-primary/20 rounded-2xl mb-6">
@@ -215,10 +215,10 @@ const HelpPage = () => {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer Links */}
-      <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+      {/* <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-6 text-sm text-zinc-500">
           <a
             href="#"
@@ -245,7 +245,7 @@ const HelpPage = () => {
         <div className="flex items-center gap-4">
           <span className="text-zinc-500 text-sm">{t("poweredBy")}</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
