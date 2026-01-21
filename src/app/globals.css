@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 9 9 11; /* Zinc 950 */
+    --sidebar: 18 18 21;
+    --card: 24 24 27; /* Zinc 900 */
+    --foreground: 250 250 250;
+    --border: 39 39 42; /* Zinc 800 */
+    --primary: 163 230 53; /* #a3e635 */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  --font-sans: "Outfit", sans-serif;
+  --font-arabic: "Cairo", sans-serif;
+
+  --color-background: rgb(var(--background));
+  --color-sidebar: rgb(var(--sidebar));
+  --color-card: rgb(
+    var(--color-card)
+  ); /* Fixing this to use the variable if defined, or just use card */
+  --color-primary: #a3e635; /* Lime 400 */
+  --color-primary-hover: #84cc16; /* Lime 500 */
+
+  /* Adding semantic colors if v4 supports it this way */
+  --color-zinc-border: rgb(var(--border));
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: rgb(var(--foreground));
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  * {
+    border-color: rgb(var(--border) / 0.1);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #a1a1aa;
+    border-radius: 0;
+  }
+  .dark ::-webkit-scrollbar-track {
+    background: #18181b;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #52525b;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md border border-white/20 dark:border-white/5;
+  }
 }
