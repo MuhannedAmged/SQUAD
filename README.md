@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SQUAD. — Find Your Squad 🎮
 
 A modern, real-time gaming matchmaking platform where players can find, create, and join game lobbies. Built with Next.js 16, Supabase, and Tailwind CSS.
@@ -240,3 +241,6 @@ See `supabase_migration.sql` for the full schema and RLS policies.
 ---
 
 **Made with ❤️ for gamers, by gamers.**
+=======
+# SQUAD.
+>>>>>>> 5e972ef2c79d7610b9f9890e15780ee62847afc5

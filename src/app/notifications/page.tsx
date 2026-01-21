@@ -25,8 +25,12 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // UUID regex for validation
+  const isValidUUID = (id: string) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
   useEffect(() => {
-    if (user) {
+    if (user && isValidUUID(user.id)) {
       fetchNotifications();
 
       // Realtime subscription
@@ -43,7 +47,7 @@ export default function NotificationsPage() {
           (payload) => {
             setNotifications((prev) => [payload.new, ...prev]);
             // Optional: toast if page is dedicated? Maybe redundant if Header shows it.
-          }
+          },
         )
         .subscribe();
 
@@ -54,7 +58,7 @@ export default function NotificationsPage() {
   }, [user]);
 
   const fetchNotifications = async () => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
     setLoading(true);
     const { data, error } = await supabase
       .from("notifications")
@@ -69,7 +73,7 @@ export default function NotificationsPage() {
   };
 
   const markAllAsRead = async () => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
     const { error } = await supabase
       .from("notifications")
       .update({ is_read: true })
@@ -82,7 +86,7 @@ export default function NotificationsPage() {
   };
 
   const deleteAll = async () => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
     const { error } = await supabase
       .from("notifications")
       .delete()
@@ -114,7 +118,7 @@ export default function NotificationsPage() {
 
     if (!error) {
       setNotifications(
-        notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+        notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n)),
       );
     }
   };
@@ -136,12 +140,14 @@ export default function NotificationsPage() {
   const handleResponse = (
     notificationId: string,
     senderId: string,
-    action: "accept" | "decline"
+    action: "accept" | "decline",
   ) => {
     handleFriendResponse(notificationId, senderId, action, () => {
       // Refresh notifications list to remove the request from the list if needed or mark it read locally
       setNotifications((prev) =>
-        prev.map((n) => (n.id === notificationId ? { ...n, is_read: true } : n))
+        prev.map((n) =>
+          n.id === notificationId ? { ...n, is_read: true } : n,
+        ),
       );
     });
   };

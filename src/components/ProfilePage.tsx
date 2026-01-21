@@ -145,7 +145,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             .select("*", { count: "exact", head: true })
             .eq("room_id", room.id);
           return { ...room, member_count: count || 0 };
-        })
+        }),
       );
       setActiveRooms(roomsWithCounts);
     }
@@ -166,7 +166,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             game_name,
             game_cover_url
           )
-        `
+        `,
         )
         .eq("user_id", userId)
         .order("joined_at", { ascending: false })
@@ -205,7 +205,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const { data: sent, error: sentErr } = await supabase
       .from("friends")
       .select(
-        "receiver_id, profiles!receiver_id(id, username, avatar_url, is_pro, updated_at)"
+        "receiver_id, profiles!receiver_id(id, username, avatar_url, is_pro, updated_at)",
       )
       .eq("sender_id", userId)
       .eq("status", "accepted");
@@ -214,7 +214,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const { data: received, error: receivedErr } = await supabase
       .from("friends")
       .select(
-        "sender_id, profiles!sender_id(id, username, avatar_url, is_pro, updated_at)"
+        "sender_id, profiles!sender_id(id, username, avatar_url, is_pro, updated_at)",
       )
       .eq("receiver_id", userId)
       .eq("status", "accepted");
@@ -234,7 +234,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       .from("friends")
       .select("status, sender_id")
       .or(
-        `and(sender_id.eq.${user.id},receiver_id.eq.${targetId}),and(sender_id.eq.${targetId},receiver_id.eq.${user.id})`
+        `and(sender_id.eq.${user.id},receiver_id.eq.${targetId}),and(sender_id.eq.${targetId},receiver_id.eq.${user.id})`,
       )
       .maybeSingle();
 
@@ -282,7 +282,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       !profile ||
       confirm(
         t("confirmRemoveFriend") ||
-          "Are you sure you want to remove this friend?"
+          "Are you sure you want to remove this friend?",
       )
     ) {
       try {
@@ -290,7 +290,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
           .from("friends")
           .delete()
           .or(
-            `and(sender_id.eq.${user.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${user.id})`
+            `and(sender_id.eq.${user.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${user.id})`,
           );
 
         if (error) {
@@ -313,7 +313,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         .from("friends")
         .delete()
         .or(
-          `and(sender_id.eq.${user.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${user.id})`
+          `and(sender_id.eq.${user.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${user.id})`,
         );
       if (!error) {
         setFriendStatus(null);
@@ -352,13 +352,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
-          {isOwnProfile && (
+          {/* {isOwnProfile && (
             <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
               <span className="flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xl backdrop-blur-md text-white font-medium">
                 <Edit2 size={18} /> {t("changeCover")}
               </span>
             </div>
-          )}
+          )} */}
         </div>
 
         {/* Profile Info Card */}
@@ -405,7 +405,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     <span className="text-primary font-medium">
                       {getLastSeen(
                         profile?.updated_at || profile?.created_at,
-                        t
+                        t,
                       )}
                     </span>
                   </>
@@ -718,7 +718,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       )}
 
       {/* Cover Selection Modal */}
-      {isCoverTableOpen && (
+      {/* {isCoverTableOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -754,7 +754,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             </div>
           </motion.div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

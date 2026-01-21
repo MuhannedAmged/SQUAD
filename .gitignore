@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /out/
+/testsprite_tests
 
 # production
 /build

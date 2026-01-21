@@ -110,8 +110,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
     }
   }, [user]);
 
+  // UUID regex for validation
+  const isValidUUID = (id: string) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
   const fetchNotifications = async () => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
     const { data, error } = await supabase
       .from("notifications")
       .select("*")
@@ -125,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
   };
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
 
     const channel = supabase
       .channel(`notifications_${user.id}`)
@@ -140,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
         (payload) => {
           setNotifications((prev) => [payload.new, ...prev].slice(0, 10));
           toast.info(payload.new.title, { description: payload.new.content });
-        }
+        },
       )
       .subscribe();
 
@@ -158,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
               label: t("view"),
               onClick: () => onNavigate(`room/${payload.roomId}` as any),
             },
-          }
+          },
         );
       })
       .on("broadcast", { event: "GAME_INVITED" }, ({ payload }) => {
@@ -181,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
   }, [user]);
 
   const markAllAsRead = async () => {
-    if (!user) return;
+    if (!user || !isValidUUID(user.id)) return;
     const { error } = await supabase
       .from("notifications")
       .update({ is_read: true })
@@ -201,7 +205,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
 
     if (!error) {
       setNotifications(
-        notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+        notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n)),
       );
     }
   };
@@ -212,7 +216,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
   const handleResponse = (
     notificationId: string,
     senderId: string,
-    action: "accept" | "decline"
+    action: "accept" | "decline",
   ) => {
     handleFriendResponse(notificationId, senderId, action, () => {
       // Optional: Specific post-action logic for header if needed,
@@ -237,7 +241,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
     setIsSearching(true);
     try {
       const response = await fetch(
-        `/api/profiles/search?q=${encodeURIComponent(query)}`
+        `/api/profiles/search?q=${encodeURIComponent(query)}`,
       );
       const data = await response.json();
       setSearchResults(data);
@@ -551,12 +555,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
                       >
                         <div
                           className={`w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 ${getNotificationColor(
-                            notif.type
+                            notif.type,
                           )}`}
                         >
                           {React.createElement(
                             getNotificationIcon(notif.type),
-                            { size: 20 }
+                            { size: 20 },
                           )}
                         </div>
                         <div className="flex-1">
@@ -567,7 +571,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
                             <span className="text-[10px] text-zinc-400">
                               {new Date(notif.created_at).toLocaleTimeString(
                                 [],
-                                { hour: "2-digit", minute: "2-digit" }
+                                { hour: "2-digit", minute: "2-digit" },
                               )}
                             </span>
                           </div>
@@ -589,7 +593,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
                                     handleFriendResponse(
                                       notif.id,
                                       senderId,
-                                      "accept"
+                                      "accept",
                                     );
                                   }}
                                   className="px-3 py-1 bg-primary text-black text-xs font-bold rounded-lg hover:bg-primary-hover transition-colors"
@@ -605,7 +609,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, user, onNavigate }) => {
                                     handleFriendResponse(
                                       notif.id,
                                       senderId,
-                                      "decline"
+                                      "decline",
                                     );
                                   }}
                                   className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-lg hover:bg-white/20 transition-colors"
